@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEXA TECH — API Console & Monitoring</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/dashboard/styles.css">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand-section">
+      <div class="brand-title">
+        <div class="brand-logo-icon">
+          <!-- Standalone modern geometric tech monogram logo -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 4L12 20L20 4H15.5L12 12.5L8.5 4H4Z" fill="white" />
+          </svg>
+        </div>
+        <div>
+          <div style="font-weight: 800; letter-spacing: 0.5px;">VEXA TECH</div>
+          <div style="font-size: 11px; font-weight: 500; color: var(--text-secondary);">API Console</div>
+        </div>
+      </div>
+      <span class="brand-badge" id="sidebar-env-badge">DEV</span>
+    </div>
+
+    <nav class="nav-menu">
+      <a class="nav-item active" data-tab="overview">
+        <span class="nav-icon" data-icon="layout-dashboard"></span>
+        <span>Overview</span>
+      </a>
+      <a class="nav-item" data-tab="routes">
+        <span class="nav-icon" data-icon="network"></span>
+        <span>API Routes</span>
+      </a>
+      <a class="nav-item" data-tab="modules">
+        <span class="nav-icon" data-icon="boxes"></span>
+        <span>Modules</span>
+      </a>
+      <a class="nav-item" data-tab="database">
+        <span class="nav-icon" data-icon="database"></span>
+        <span>Database</span>
+      </a>
+      <a class="nav-item" data-tab="authentication">
+        <span class="nav-icon" data-icon="shield-check"></span>
+        <span>Authentication</span>
+      </a>
+      <a class="nav-item" data-tab="config">
+        <span class="nav-icon" data-icon="settings"></span>
+        <span>Configuration</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="server-tag">
+        <span>API Version</span>
+        <strong id="sidebar-api-version">v1.0.0</strong>
+      </div>
+      <div class="server-tag">
+        <span>Environment</span>
+        <strong id="sidebar-env-name">development</strong>
+      </div>
+      <div style="margin-top: 10px;">
+        <a href="/api/health?format=json" target="_blank" style="font-size: 11.5px; color: var(--color-primary); text-decoration: none; display: flex; align-items: center; gap: 6px;">
+          <span data-icon="external-link" style="display: inline-flex;"></span>
+          <span>Raw Health JSON</span>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Wrapper -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <button class="mobile-menu-btn" id="mobile-toggle" aria-label="Toggle menu">
+          <span data-icon="menu"></span>
+        </button>
+        <div class="breadcrumbs">
+          <span>VEXA TECH</span>
+          <span>/</span>
+          <span>API Console</span>
+          <span>/</span>
+          <span class="current" id="current-crumb">Overview</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="search-box">
+          <span data-icon="search" style="display: flex; align-items: center;"></span>
+          <input type="text" id="global-search" placeholder="Search routes & modules...">
+        </div>
+        <button class="refresh-btn" id="refresh-btn" title="Refresh metrics from backend">
+          <span id="refresh-icon-container" style="display: inline-flex;"><span data-icon="refresh-cw"></span></span>
+          <span>Refresh</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Page Content Container -->
+    <main class="page-container">
+
+      <!-- ==================== TAB: OVERVIEW ==================== -->
+      <section class="tab-pane active" id="tab-overview">
+        <div class="overview-banner">
+          <div class="overview-title">
+            <h1>API Overview</h1>
+            <p>Monitor your backend services, inspect available endpoints, and explore application modules.</p>
+          </div>
+          <div id="overall-status-badge" class="status-badge operational">
+            <span class="status-pulse"></span>
+            <span id="overall-status-text">OPERATIONAL</span>
+          </div>
+        </div>
+
+        <!-- Metric Cards -->
+        <div class="metrics-grid">
+          <!-- Card 1: API Status -->
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">API Status</span>
+              <div class="metric-icon-wrap green">
+                <span data-icon="activity"></span>
+              </div>
+            </div>
+            <div class="metric-value" id="card-api-status">Operational</div>
+            <div class="metric-subtext">Response latency: <strong id="card-api-latency">0 ms</strong></div>
+          </div>
+
+          <!-- Card 2: Database -->
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">PostgreSQL Database</span>
+              <div class="metric-icon-wrap blue">
+                <span data-icon="database"></span>
+              </div>
+            </div>
+            <div class="metric-value" id="card-db-status">Connected</div>
+            <div class="metric-subtext">Ping latency: <strong id="card-db-latency">4 ms</strong></div>
+          </div>
+
+          <!-- Card 3: Registered Routes -->
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">API Endpoints</span>
+              <div class="metric-icon-wrap purple">
+                <span data-icon="network"></span>
+              </div>
+            </div>
+            <div class="metric-value" id="card-routes-count">9 Active</div>
+            <div class="metric-subtext"><span id="card-routes-planned">6</span> Planned in pipeline</div>
+          </div>
+
+          <!-- Card 4: Backend Modules -->
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">Backend Modules</span>
+              <div class="metric-icon-wrap orange">
+                <span data-icon="boxes"></span>
+              </div>
+            </div>
+            <div class="metric-value" id="card-modules-count">20 Total</div>
+            <div class="metric-subtext"><span id="card-modules-implemented">4</span> Active / Partial</div>
+          </div>
+        </div>
+
+        <!-- Service Health Panel -->
+        <div class="card-panel">
+          <div class="panel-header">
+            <h2>
+              <span data-icon="heart-pulse" style="color: var(--color-primary); display: inline-flex;"></span>
+              Service Health
+            </h2>
+            <div style="font-size: 12.5px; color: var(--text-secondary);">
+              Last checked: <span id="last-checked-time" style="font-weight: 600; color: var(--text-main);">Just now</span>
+            </div>
+          </div>
+          <div class="panel-body" style="padding: 0;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Service</th>
+                  <th>Status</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody id="service-health-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Recent Routes Preview -->
+        <div class="card-panel">
+          <div class="panel-header">
+            <h2>
+              <span data-icon="zap" style="color: var(--color-primary); display: inline-flex;"></span>
+              Active Endpoints Preview
+            </h2>
+            <button class="copy-btn" onclick="navigateToTab('routes')">
+              View All Routes &rarr;
+            </button>
+          </div>
+          <div class="panel-body" style="padding: 0;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>Endpoint</th>
+                  <th>Module</th>
+                  <th>Auth</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="overview-routes-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB: API ROUTES ==================== -->
+      <section class="tab-pane" id="tab-routes">
+        <div class="overview-banner">
+          <div class="overview-title">
+            <h1>API Routes Explorer</h1>
+            <p>Search, filter, and inspect registered HTTP endpoints and upcoming endpoints.</p>
+          </div>
+          <div class="filter-bar">
+            <select class="filter-select" id="route-method-filter">
+              <option value="ALL">All Methods</option>
+              <option value="GET">GET</option>
+              <option value="POST">POST</option>
+              <option value="PUT">PUT</option>
+              <option value="DELETE">DELETE</option>
+            </select>
+            <select class="filter-select" id="route-auth-filter">
+              <option value="ALL">All Access</option>
+              <option value="Public">Public</option>
+              <option value="Bearer">Protected</option>
+            </select>
+            <select class="filter-select" id="route-status-filter">
+              <option value="ALL">All Status</option>
+              <option value="Implemented">Implemented</option>
+              <option value="Planned">Planned</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="card-panel">
+          <div class="panel-body" style="padding: 0;">
+            <table class="data-table" id="routes-table">
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>Endpoint</th>
+                  <th>Module</th>
+                  <th>Authentication</th>
+                  <th>Status</th>
+                  <th>Description</th>
+                  <th style="text-align: right;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="routes-table-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB: MODULES ==================== -->
+      <section class="tab-pane" id="tab-modules">
+        <div class="overview-banner">
+          <div class="overview-title">
+            <h1>Backend Modules Catalogue</h1>
+            <p>Comprehensive overview of all 20 modules planned and implemented for Bridal & Makeup SaaS.</p>
+          </div>
+          <div class="filter-bar">
+            <select class="filter-select" id="module-status-filter">
+              <option value="ALL">All Statuses</option>
+              <option value="Implemented">Implemented</option>
+              <option value="Partially Implemented">Partially Implemented</option>
+              <option value="Planned">Planned</option>
+              <option value="Needs Configuration">Needs Configuration</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="module-grid" id="modules-container">
+          <!-- Dynamically populated module cards -->
+        </div>
+      </section>
+
+      <!-- ==================== TAB: DATABASE ==================== -->
+      <section class="tab-pane" id="tab-database">
+        <div class="overview-banner">
+          <div class="overview-title">
+            <h1>PostgreSQL Database & Schema Inventory</h1>
+            <p>Preserved production database with 30 introspected models, relations, and table categories.</p>
+          </div>
+          <span class="badge badge-green" style="font-size: 13px; padding: 6px 12px; display: inline-flex; align-items: center; gap: 6px;">
+            <span data-icon="check-circle-2"></span>
+            Connected to BridalSofwtwareDb
+          </span>
+        </div>
+
+        <!-- Database Metrics Cards -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">Database Engine</span>
+              <div class="metric-icon-wrap blue">
+                <span data-icon="database"></span>
+              </div>
+            </div>
+            <div class="metric-value">PostgreSQL</div>
+            <div class="metric-subtext">Localhost port 5432</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">Prisma Models</span>
+              <div class="metric-icon-wrap purple">
+                <span data-icon="layers"></span>
+              </div>
+            </div>
+            <div class="metric-value" id="db-models-count">30 Tables</div>
+            <div class="metric-subtext">Introspected via Prisma v6</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-top">
+              <span class="metric-label">Connection Health</span>
+              <div class="metric-icon-wrap green">
+                <span data-icon="heart"></span>
+              </div>
+            </div>
+            <div class="metric-value">Active Pool</div>
+            <div class="metric-subtext">Safe zero-migration policy</div>
+          </div>
+        </div>
+
+        <!-- Tables Inventory -->
+        <div class="card-panel">
+          <div class="panel-header">
+            <h2>
+              <span data-icon="table" style="color: var(--color-primary); display: inline-flex;"></span>
+              Registered Application Tables
+            </h2>
+            <div class="search-box" style="width: 220px;">
+              <span data-icon="search" style="display: flex; align-items: center;"></span>
+              <input type="text" id="db-search" placeholder="Filter tables...">
+            </div>
+          </div>
+          <div class="panel-body" style="padding: 0;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Table Name</th>
+                  <th>Category</th>
+                  <th>Scope</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody id="db-tables-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB: AUTHENTICATION ==================== -->
+      <section class="tab-pane" id="tab-authentication">
+        <div class="overview-banner">
+          <div class="overview-title">
+            <h1>Authentication & Security</h1>
+            <p>Status of JWT authentication, email OTP verification, password hashing, and tenant guards.</p>
+          </div>
+          <span class="badge badge-green" style="font-size: 13px; padding: 6px 12px; display: inline-flex; align-items: center; gap: 6px;">
+            <span data-icon="shield-check"></span>
+            Production Ready
+          </span>
+        </div>
+
+        <div class="card-panel">
+          <div class="panel-header">
+            <h2>
+              <span data-icon="key" style="color: var(--color-primary); display: inline-flex;"></span>
+              Authentication Stack Status
+            </h2>
+          </div>
+          <div class="panel-body" style="padding: 0;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Component</th>
+                  <th>Implementation</th>
+                  <th>Status</th>
+                  <th>Security Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Email OTP Verification</strong></td>
+                  <td><code>POST /api/auth/register</code>, <code>POST /api/auth/verify-email</code></td>
+                  <td><span class="badge badge-green">Implemented</span></td>
+                  <td>6-digit cryptographic OTP, SHA-256 hash in DB, 10-min expiry, max 5 attempts</td>
+                </tr>
+                <tr>
+                  <td><strong>OTP Resend Flow</strong></td>
+                  <td><code>POST /api/auth/resend-otp</code></td>
+                  <td><span class="badge badge-green">Implemented</span></td>
+                  <td>60-second cooldown period, invalidates prior tokens</td>
+                </tr>
+                <tr>
+                  <td><strong>JWT Access Tokens</strong></td>
+                  <td><code>POST /api/auth/login</code></td>
+                  <td><span class="badge badge-green">Implemented</span></td>
+                  <td>HMAC SHA-256 signed tokens, configurable expiry (1d)</td>
+                </tr>
+                <tr>
+                  <td><strong>Password Hashing</strong></td>
+                  <td><code>bcryptjs</code></td>
+                  <td><span class="badge badge-green">Implemented</span></td>
+                  <td>Salt rounds: 12, never stored plaintext</td>
+                </tr>
+                <tr>
+                  <td><strong>Authentication Guard</strong></td>
+                  <td><code>src/middleware/auth.middleware.js</code></td>
+                  <td><span class="badge badge-green">Implemented</span></td>
+                  <td>Bearer JWT validator, verifies active & email-verified status in DB</td>
+                </tr>
+                <tr>
+                  <td><strong>Multi-Tenant Guard</strong></td>
+                  <td><code>src/middleware/tenant.js</code></td>
+                  <td><span class="badge badge-green">Implemented</span></td>
+                  <td>Validates tenant membership from <code>business_members</code> table</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB: CONFIGURATION ==================== -->
+      <section class="tab-pane" id="tab-config">
+        <div class="overview-banner">
+          <div class="overview-title">
+            <h1>Safe Environment Configuration</h1>
+            <p>Non-sensitive application runtime parameters and service settings. No secrets are ever exposed.</p>
+          </div>
+        </div>
+
+        <div class="card-panel">
+          <div class="panel-header">
+            <h2>
+              <span data-icon="sliders" style="color: var(--color-primary); display: inline-flex;"></span>
+              Runtime Settings
+            </h2>
+          </div>
+          <div class="panel-body">
+            <div class="config-grid" id="config-grid">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Route Details Drawer -->
+  <div class="drawer-overlay" id="drawer-overlay">
+    <div class="drawer-content">
+      <div class="drawer-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="method-badge method-get" id="drawer-method">GET</span>
+          <strong id="drawer-title" style="font-size: 15px;">/api/health</strong>
+        </div>
+        <button class="drawer-close" id="drawer-close" aria-label="Close drawer">
+          <span data-icon="x"></span>
+        </button>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <div style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase; font-weight: 600; margin-bottom: 4px;">Purpose</div>
+        <p id="drawer-desc" style="font-size: 14px; line-height: 1.5; color: var(--text-main);">-</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+        <div style="background: var(--bg-page); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+          <div style="font-size: 11px; color: var(--text-secondary); font-weight: 600;">AUTHENTICATION</div>
+          <div id="drawer-auth" style="font-size: 13px; font-weight: 600; margin-top: 4px;">Public</div>
+        </div>
+        <div style="background: var(--bg-page); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+          <div style="font-size: 11px; color: var(--text-secondary); font-weight: 600;">STATUS</div>
+          <div id="drawer-status" style="font-size: 13px; font-weight: 600; margin-top: 4px;">Implemented</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+          <span style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase; font-weight: 600;">Request Body Example</span>
+        </div>
+        <div class="json-block" id="drawer-request-body">null</div>
+      </div>
+
+      <div style="margin-bottom: 24px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+          <span style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase; font-weight: 600;">Response Example</span>
+        </div>
+        <div class="json-block" id="drawer-response-body">{}</div>
+      </div>
+
+      <div style="margin-top: auto; display: flex; gap: 10px;">
+        <button class="copy-btn" id="drawer-copy-btn" style="flex: 1; justify-content: center; padding: 10px;">
+          <span data-icon="copy"></span>
+          <span>Copy Endpoint</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/dashboard/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+{
+  "name": "bridal-makeup-backend",
+  "version": "1.0.0",
+  "description": "Backend foundation for Bridal & Makeup Business Management Software by VEXA TECH",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "db:pull": "prisma db pull",
+    "db:generate": "prisma generate"
+  },
+  "keywords": [
+    "saas",
+    "bridal",
+    "makeup",
+    "management",
+    "multi-tenant"
+  ],
+  "author": "VEXA TECH",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.9",
+    "express": "^5.3.0",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "morgan": "^1.12.1",
+    "nodemailer": "^10.2.1",
+    "razorpay": "^2.9.8",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14",
+    "prisma": "^6.19.3"
+  }
+}
