@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.*
+.yarn/*
+
+# Environment files - strictly never bake into images
+.env*
+!.env.example
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.git/
+.gitignore
+.dockerignore
+*.md
+.vscode/
+.idea/
+
+# Uploads directory if stored locally
+uploads/
+temp/
+
