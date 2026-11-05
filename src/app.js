@@ -36,17 +36,41 @@ app.use(
   })
 );
 
-// CORS configuration - strict in production, configurable via FRONTEND_URL
-const allowedOrigins = [env.FRONTEND_URL];
+// CORS configuration - allow configured frontend, admin, landing, and all Vexatech subdomains
+const allowedOrigins = [
+  env.FRONTEND_URL,
+  'https://varnam.vexatech.in',
+  'https://app.varnam.vexatech.in',
+  'https://ad.varnam.vexatech.in',
+  'https://api.varnam.vextech.in',
+  'https://api.varnam.vexatech.in',
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://localhost:3002',
+];
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, browser direct) or matching origin
-      if (!origin || allowedOrigins.includes(origin) || env.NODE_ENV === 'development') {
-        callback(null, true);
-      } else {
-        callback(new Error('Blocked by CORS policy'));
+      // Allow requests with no origin (like mobile apps, curl, browser direct) or in development
+      if (!origin || env.NODE_ENV === 'development') {
+        return callback(null, true);
       }
+
+      // Check explicit allowed origins list
+      if (allowedOrigins.some((allowed) => allowed && origin.startsWith(allowed))) {
+        return callback(null, true);
+      }
+
+      // Allow any *.vexatech.in or *.vextech.in domain
+      try {
+        const url = new URL(origin);
+        if (url.hostname.endsWith('vexatech.in') || url.hostname.endsWith('vextech.in')) {
+          return callback(null, true);
+        }
+      } catch (e) {}
+
+      callback(new Error(`Blocked by CORS policy: ${origin}`));
     },
     credentials: true,
   })
