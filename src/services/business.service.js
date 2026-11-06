@@ -396,6 +396,17 @@ export const businessService = {
       data: safeData,
     });
 
+    // Auto-sync website subdomain if business slug was updated
+    if (safeData.slug) {
+      await prisma.business_websites.updateMany({
+        where: { business_id: businessId },
+        data: {
+          subdomain: safeData.slug,
+          updated_at: new Date(),
+        },
+      });
+    }
+
     // Record audit log
     await prisma.audit_logs.create({
       data: {
