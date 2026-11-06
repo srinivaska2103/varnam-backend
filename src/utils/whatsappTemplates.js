@@ -30,7 +30,7 @@ We've received your enquiry.
 
 Our team will contact you soon to discuss your requirements.
 
-Thank you for considering`,
+Varnam Management System`,
   },
 
   // 2. New Bridal Enquiry Notification to Studio Admin

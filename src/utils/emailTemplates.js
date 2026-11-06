@@ -185,11 +185,9 @@ export const emailTemplates = {
         ${transactionReference ? `<div class="detail-row"><span class="detail-label">Reference Note:</span><span class="detail-value">${escapeHtml(transactionReference)}</span></div>` : ''}
         <div class="detail-row"><span class="detail-label">Updated Balance Due:</span><span class="detail-value">₹${escapeHtml(balanceRemaining || '0.00')}</span></div>
       </div>
-      ${dashboardUrl ? `<div style="text-align: center; margin: 15px 0;"><a href="${escapeHtml(dashboardUrl)}" target="_blank" style="display: inline-block; background: #ea580c; color: #ffffff; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 13px;">View Booking in Dashboard</a></div>` : ''}
-      <div class="cta-admin-box">
-        <div class="cta-admin-title">Studio Admin Portal</div>
+      <div class="cta-container">
         <a href="${escapeHtml(APP_CONFIG.getAdminLoginUrl())}" target="_blank" class="cta-btn">
-          Login to VARNAM Dashboard &rarr;
+          Login to Dashboard &rarr;
         </a>
       </div>
     `;
@@ -237,11 +235,9 @@ export const emailTemplates = {
         ${submittedTime ? `<div class="detail-row"><span class="detail-label">Submission Time:</span><span class="detail-value">${escapeHtml(submittedTime)}</span></div>` : ''}
         ${message ? `<div class="detail-row"><span class="detail-label">Message / Notes:</span><span class="detail-value">${escapeHtml(message)}</span></div>` : ''}
       </div>
-      ${dashboardUrl ? `<div style="text-align: center; margin: 18px 0;"><a href="${escapeHtml(dashboardUrl)}" target="_blank" style="display: inline-block; background: #ea580c; color: #ffffff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 13px;">Open Enquiry in CRM Dashboard &rarr;</a></div>` : ''}
-      <div class="cta-admin-box">
-        <div class="cta-admin-title">Studio Admin Portal</div>
+      <div class="cta-container">
         <a href="${escapeHtml(APP_CONFIG.getAdminLoginUrl())}" target="_blank" class="cta-btn">
-          Login to VARNAM Dashboard &rarr;
+          Login to Dashboard &rarr;
         </a>
       </div>
       <div class="message">Please follow up promptly with the client.</div>
@@ -268,11 +264,9 @@ export const emailTemplates = {
         <div class="detail-row"><span class="detail-label">Minimum Threshold:</span><span class="detail-value">${escapeHtml(minimumThreshold)}</span></div>
       </div>
       <div class="alert-box">Action Required: Please arrange restocking before upcoming bridal appointments to prevent stockouts.</div>
-      ${inventoryUrl ? `<div style="text-align: center; margin: 18px 0;"><a href="${escapeHtml(inventoryUrl)}" target="_blank" style="display: inline-block; background: #ea580c; color: #ffffff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 13px;">Open Inventory & Stock Restock &rarr;</a></div>` : ''}
-      <div class="cta-admin-box">
-        <div class="cta-admin-title">Studio Admin Portal</div>
+      <div class="cta-container">
         <a href="${escapeHtml(APP_CONFIG.getAdminLoginUrl())}" target="_blank" class="cta-btn">
-          Login to VARNAM Dashboard &rarr;
+          Login to Dashboard &rarr;
         </a>
       </div>
     `;
@@ -396,11 +390,9 @@ export const emailTemplates = {
         <div class="detail-row"><span class="detail-label">Total Amount:</span><span class="detail-value">₹${escapeHtml(totalAmount)}</span></div>
         <div class="detail-row"><span class="detail-label">Payment Status:</span><span class="detail-value">${escapeHtml(paymentStatus)}</span></div>
       </div>
-      ${dashboardUrl ? `<div style="text-align: center; margin: 20px 0;"><a href="${escapeHtml(dashboardUrl)}" target="_blank" style="display: inline-block; background: #ea580c; color: #ffffff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 13px;">View Booking in Dashboard</a></div>` : ''}
-      <div class="cta-admin-box">
-        <div class="cta-admin-title">Studio Admin Portal</div>
+      <div class="cta-container">
         <a href="${escapeHtml(APP_CONFIG.getAdminLoginUrl())}" target="_blank" class="cta-btn">
-          Login to VARNAM Dashboard &rarr;
+          Login to Dashboard &rarr;
         </a>
       </div>
     `;
@@ -490,11 +482,9 @@ export const emailTemplates = {
         <div class="detail-row"><span class="detail-label">Venue:</span><span class="detail-value">${escapeHtml(venue || 'Studio')}</span></div>
         <div class="detail-row"><span class="detail-label">Balance Due:</span><span class="detail-value">₹${escapeHtml(balanceDue || '0')}</span></div>
       </div>
-      ${dashboardUrl ? `<div style="text-align: center; margin: 15px 0;"><a href="${escapeHtml(dashboardUrl)}" target="_blank" style="display: inline-block; background: #ea580c; color: #ffffff; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 13px;">Open Booking Details</a></div>` : ''}
-      <div class="cta-admin-box">
-        <div class="cta-admin-title">Studio Admin Portal</div>
+      <div class="cta-container">
         <a href="${escapeHtml(APP_CONFIG.getAdminLoginUrl())}" target="_blank" class="cta-btn">
-          Login to VARNAM Dashboard &rarr;
+          Login to Dashboard &rarr;
         </a>
       </div>
     `;
@@ -522,11 +512,9 @@ export const emailTemplates = {
         <div class="detail-row"><span class="detail-label">Booking Status:</span><span class="detail-value">${escapeHtml(status)}</span></div>
         <div class="detail-row"><span class="detail-label">Outstanding Balance:</span><span class="detail-value" style="color: ${Number(balanceDue) > 0 ? '#ea580c' : '#16a34a'};">₹${escapeHtml(balanceDue || '0.00')}</span></div>
       </div>
-      ${dashboardUrl ? `<div style="text-align: center; margin: 15px 0;"><a href="${escapeHtml(dashboardUrl)}" target="_blank" style="display: inline-block; background: #ea580c; color: #ffffff; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 13px;">View in Booking Manager</a></div>` : ''}
-      <div class="cta-admin-box">
-        <div class="cta-admin-title">Studio Admin Portal</div>
+      <div class="cta-container">
         <a href="${escapeHtml(APP_CONFIG.getAdminLoginUrl())}" target="_blank" class="cta-btn">
-          Login to VARNAM Dashboard &rarr;
+          Login to Dashboard &rarr;
         </a>
       </div>
     `;
@@ -575,11 +563,9 @@ export const emailTemplates = {
         ${billingAmount ? `<div class="detail-row"><span class="detail-label">Amount:</span><span class="detail-value">₹${escapeHtml(billingAmount)}</span></div>` : ''}
       </div>
       <div class="${eventType === 'PAYMENT_FAILED' ? 'alert-box' : 'success-box'}">${detailsHtml}</div>
-      ${actionUrl ? `<div style="text-align: center; margin: 20px 0;"><a href="${escapeHtml(actionUrl)}" target="_blank" style="display: inline-block; background: #fff; color: #ea580c; border: 2px solid #ea580c; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 13px;">Manage Subscription</a></div>` : ''}
-      <div class="cta-admin-box">
-        <div class="cta-admin-title">Studio Admin Portal</div>
+      <div class="cta-container">
         <a href="${escapeHtml(APP_CONFIG.getAdminLoginUrl())}" target="_blank" class="cta-btn">
-          Login to VARNAM Dashboard &rarr;
+          Login to Dashboard &rarr;
         </a>
       </div>
     `;
@@ -701,19 +687,10 @@ export const emailTemplates = {
         ${previousInteractionNotes ? `<div class="detail-row"><span class="detail-label">Previous Interaction:</span><span class="detail-value">${escapeHtml(previousInteractionNotes)}</span></div>` : ''}
         ${followUpNotes ? `<div class="detail-row"><span class="detail-label">Follow-Up Objective / Notes:</span><span class="detail-value">${escapeHtml(followUpNotes)}</span></div>` : ''}
       </div>
-      ${portalLink ? `
-        <div style="text-align: center; margin: 20px 0 10px 0;">
-          <a href="${escapeHtml(portalLink)}" target="_blank" style="display: inline-block; background: #fff; color: #ea580c; border: 2px solid #ea580c; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 13px; text-decoration: none;">View ${escapeHtml(referenceType)} Details &rarr;</a>
-        </div>
-      ` : ''}
-      <div class="cta-admin-box">
-        <div class="cta-admin-title">Studio Management Action Required</div>
+      <div class="cta-container">
         <a href="${escapeHtml(APP_CONFIG.getAdminLoginUrl())}" target="_blank" class="cta-btn">
-          Login to VARNAM Dashboard &rarr;
+          Login to Dashboard &rarr;
         </a>
-        <div style="font-size: 11px; color: #9a3412; margin-top: 10px;">
-          Direct Access: <a href="${escapeHtml(APP_CONFIG.getAdminLoginUrl())}" style="color: #ea580c; font-weight: 600;">${escapeHtml(APP_CONFIG.getAdminLoginUrl())}</a>
-        </div>
       </div>
     `;
 
@@ -843,19 +820,10 @@ export const emailTemplates = {
       <div class="alert-box">
         <strong>Avoid Service Disruption:</strong> Renew your subscription before ${escapeHtml(subscriptionExpiryDateStr)} to retain continuous access to client bookings, automated WhatsApp messages, quotation generators, and bridal calendars.
       </div>
-      ${renewalUrl ? `
-        <div style="text-align: center; margin: 20px 0 10px 0;">
-          <a href="${escapeHtml(renewalUrl)}" target="_blank" style="display: inline-block; background: #fff; color: #ea580c; border: 2px solid #ea580c; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 13px; text-decoration: none;">Direct Subscription Renewal &rarr;</a>
-        </div>
-      ` : ''}
-      <div class="cta-admin-box">
-        <div class="cta-admin-title">Studio Admin Portal</div>
+      <div class="cta-container">
         <a href="${escapeHtml(APP_CONFIG.getAdminLoginUrl())}" target="_blank" class="cta-btn">
-          Login to VARNAM Dashboard &rarr;
+          Login to Dashboard &rarr;
         </a>
-        <div style="font-size: 11px; color: #9a3412; margin-top: 10px;">
-          Direct Access: <a href="${escapeHtml(APP_CONFIG.getAdminLoginUrl())}" style="color: #ea580c; font-weight: 600;">${escapeHtml(APP_CONFIG.getAdminLoginUrl())}</a>
-        </div>
       </div>
     `;
 

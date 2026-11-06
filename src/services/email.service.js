@@ -253,7 +253,7 @@ export const emailService = {
           </div>
 
           <div class="cta-box">
-            <a href="http://localhost:3001/enquiries" class="cta-btn">Open Super Admin Enquiries Panel &rarr;</a>
+            <a href="https://app.varnam.vexatech.in/login" class="cta-btn">Login to Dashboard &rarr;</a>
           </div>
         </div>
         <div class="footer">
