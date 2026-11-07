@@ -1596,15 +1596,34 @@ export const enquiryService = {
     const customAnswerLines = [];
     if (customAnswers && typeof customAnswers === 'object') {
       for (const [key, val] of Object.entries(customAnswers)) {
+        // Skip private or internal metadata keys like _requested_consultation
+        if (key.startsWith('_')) continue;
+
         const matchingField = configuredFields.find((f) => f.id === key);
-        const label = matchingField ? matchingField.label : key;
-        const displayVal = Array.isArray(val) ? val.join(', ') : String(val);
-        if (displayVal.trim()) {
+        const label = matchingField ? matchingField.label : key.replace(/_/g, ' ');
+
+        let displayVal = val;
+        if (val && typeof val === 'object' && !Array.isArray(val)) {
+          if (val.label) {
+            displayVal = val.label;
+          } else if (val.date || val.time) {
+            displayVal = [val.date, val.time].filter(Boolean).join(' at ');
+          } else {
+            displayVal = Object.entries(val).map(([k, v]) => `${k.replace(/_/g, ' ')}: ${v}`).join(', ');
+          }
+        } else if (Array.isArray(val)) {
+          displayVal = val.join(', ');
+        } else {
+          displayVal = String(val);
+        }
+
+        if (displayVal && String(displayVal).trim()) {
+          const strVal = String(displayVal);
           // If the answer is an image/data URI, do not dump raw base64 string into notes text
-          if (displayVal.startsWith('data:image/') || matchingField?.type === 'image_upload' || key === 'reference_images') {
+          if (strVal.startsWith('data:image/') || matchingField?.type === 'image_upload' || key === 'reference_images') {
             customAnswerLines.push(`${label}: [Reference Look Attached Photo]`);
           } else {
-            customAnswerLines.push(`${label}: ${displayVal}`);
+            customAnswerLines.push(`${label}: ${strVal}`);
           }
         }
       }

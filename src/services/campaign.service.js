@@ -286,7 +286,10 @@ export const campaignService = {
         cta_text: data.cta_text || null,
         cta_url: data.cta_url || null,
         segment: segment,
-        segment_filter: packageId ? { target_package_id: packageId } : {},
+        segment_filter: {
+          ...(packageId ? { target_package_id: packageId } : {}),
+          ...(customerIds && Array.isArray(customerIds) ? { customer_ids: customerIds } : {}),
+        },
         total_recipients: audience.length,
         status: data.scheduled_at ? 'SCHEDULED' : 'DRAFT',
         scheduled_at: data.scheduled_at ? new Date(data.scheduled_at) : null,
@@ -319,7 +322,8 @@ export const campaignService = {
 
     const segment = data.recipient_segment || data.segment || existing.segment;
     const packageId = data.target_package_id !== undefined ? data.target_package_id : existing.segment_filter?.target_package_id;
-    const audience = await this.getAudience(businessId, segment, packageId);
+    const customerIds = data.customer_ids !== undefined ? data.customer_ids : existing.segment_filter?.customer_ids;
+    const audience = await this.getAudience(businessId, segment, packageId, customerIds);
 
     const bodyHtml = data.body_text !== undefined ? data.body_text : (data.body_html !== undefined ? data.body_html : existing.body_html);
     const bannerUrl = data.banner_url !== undefined ? data.banner_url : (data.banner_image_url !== undefined ? data.banner_image_url : existing.banner_image_url);
@@ -336,7 +340,10 @@ export const campaignService = {
         cta_text: data.cta_text !== undefined ? data.cta_text : existing.cta_text,
         cta_url: data.cta_url !== undefined ? data.cta_url : existing.cta_url,
         segment: segment,
-        segment_filter: packageId ? { target_package_id: packageId } : {},
+        segment_filter: {
+          ...(packageId ? { target_package_id: packageId } : {}),
+          ...(customerIds && Array.isArray(customerIds) ? { customer_ids: customerIds } : {}),
+        },
         total_recipients: audience.length,
         scheduled_at: data.scheduled_at !== undefined ? (data.scheduled_at ? new Date(data.scheduled_at) : null) : existing.scheduled_at,
         status: data.scheduled_at ? 'SCHEDULED' : (data.status ?? existing.status),
@@ -448,11 +455,20 @@ export const campaignService = {
     }
 
     const packageId = campaign.segment_filter?.target_package_id;
-    const customerIds = campaign.segment_filter?.customer_ids;
-    const audience = await this.getAudience(businessId, campaign.segment, packageId, customerIds);
+    let customerIds = campaign.segment_filter?.customer_ids;
+    let audience = await this.getAudience(businessId, campaign.segment, packageId, customerIds);
+
+    // Fallback: If campaign was saved as CUSTOMER_DATA_WISE without customer_ids in draft,
+    // or if the chosen segment yielded 0 contacts, check all available contacts with email in this business
+    if (audience.length === 0) {
+      const fallbackAudience = await this.getAudience(businessId, 'ALL_CONTACTS');
+      if (fallbackAudience.length > 0) {
+        audience = fallbackAudience;
+      }
+    }
 
     if (audience.length === 0) {
-      throw ApiError.badRequest('No eligible contacts found for this audience segment. Please check marketing consent & emails.');
+      throw ApiError.badRequest('No eligible contacts with email found for this audience segment. Please add client email addresses.');
     }
 
     // Update campaign status to SENDING
