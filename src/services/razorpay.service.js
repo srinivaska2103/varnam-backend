@@ -362,7 +362,8 @@ export const razorpayService = {
 
     const startsAt = new Date();
     // 30 days for monthly subscription, 365 days for one-time
-    const endsAt = plan.billing_interval === 'MONTHLY'
+    const isMonthly = String(plan.billing_interval || '').toUpperCase() === 'MONTH' || String(plan.billing_interval || '').toUpperCase() === 'MONTHLY';
+    const endsAt = isMonthly
       ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
       : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
 
