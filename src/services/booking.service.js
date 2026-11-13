@@ -327,6 +327,7 @@ export const bookingService = {
 
           // 3. WhatsApp Template 3: Booking Confirmation to Customer
           if (result.customer && result.customer.phone) {
+            const studioPhone = business.whatsapp_phone || business.business_phone || '';
             const waBookingParams = {
               customer_name: result.customer.full_name,
               studio_name: bizName,
@@ -337,6 +338,7 @@ export const bookingService = {
               total_amount: totalAmt,
               amount_paid: advancePaid,
               balance_due: balanceDue,
+              phone_number: studioPhone || 'Our Studio',
             };
             const waBookingBody = formatWhatsAppMessage('BOOKING_CONFIRMATION', waBookingParams);
 
@@ -921,6 +923,7 @@ export const bookingService = {
             });
 
             if (!isOptedOut) {
+              const studioPhone = business.whatsapp_phone || business.business_phone || '';
               const waPaymentReminderParams = {
                 customer_name: updatedBooking.customer.full_name,
                 studio_name: bizName,
@@ -931,6 +934,7 @@ export const bookingService = {
                 total_amount: totalAmt,
                 amount_paid: advancePaid,
                 balance_due: balanceDue,
+                phone_number: studioPhone || 'Our Studio',
               };
 
               const waPaymentReminderBody = formatWhatsAppMessage(

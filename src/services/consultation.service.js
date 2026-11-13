@@ -296,6 +296,7 @@ export const consultationService = {
 
         // WhatsApp Template 4: Consultation Reminder to Customer
         const custPhone = result.requested_phone || result.customers?.phone;
+        const studioPhone = biz?.whatsapp_phone || biz?.business_phone || '';
         if (custPhone) {
           try {
             const waParams = {
@@ -304,6 +305,7 @@ export const consultationService = {
               consultation_date: dateStr,
               consultation_time: timeStr,
               studio_location: result.location_name || result.location_address || biz?.address_line1 || 'Studio',
+              phone_number: studioPhone || 'Our Studio',
             };
             const waBody = formatWhatsAppMessage('CONSULTATION_REMINDER', waParams);
 
@@ -670,6 +672,7 @@ export const consultationService = {
           const custName = existing.requested_name || existing.customers?.full_name || 'Client';
           const custPhone = existing.requested_phone || existing.customers?.phone;
 
+          const studioPhone = biz?.whatsapp_phone || biz?.business_phone || '';
           if (custPhone) {
             try {
               const waParams = {
@@ -678,6 +681,7 @@ export const consultationService = {
                 consultation_date: dateStr,
                 consultation_time: timeStr,
                 studio_location: studioLocation,
+                phone_number: studioPhone || 'Our Studio',
               };
 
               const waBody = formatWhatsAppMessage('CONSULTATION_REMINDER', waParams);
@@ -722,6 +726,7 @@ export const consultationService = {
               consultation_date: dateStr,
               consultation_time: timeStr,
               studio_location: studioLocation,
+              phone_number: studioPhone || 'Our Studio',
             };
             const waBody24 = formatWhatsAppMessage('CONSULTATION_REMINDER', waParams24);
 
@@ -749,6 +754,7 @@ export const consultationService = {
               consultation_date: dateStr,
               consultation_time: timeStr,
               studio_location: studioLocation,
+              phone_number: studioPhone || 'Our Studio',
             };
             const waBody2 = formatWhatsAppMessage('CONSULTATION_REMINDER', waParams2);
 
@@ -888,6 +894,7 @@ export const consultationService = {
           const custPhone = updatedResult.requested_phone || updatedResult.customers?.phone;
 
           // 3. Dispatch WhatsApp Rescheduling Confirmation to Customer Mobile Number
+          const studioPhone = biz?.whatsapp_phone || biz?.business_phone || '';
           if (custPhone) {
             try {
               const waParams = {
@@ -896,6 +903,7 @@ export const consultationService = {
                 consultation_date: dateStr,
                 consultation_time: timeStr,
                 studio_location: studioLocation,
+                phone_number: studioPhone || 'Our Studio',
               };
 
               const waBody = formatWhatsAppMessage('CONSULTATION_REMINDER', waParams);
@@ -941,6 +949,7 @@ export const consultationService = {
               consultation_date: dateStr,
               consultation_time: timeStr,
               studio_location: studioLocation,
+              phone_number: studioPhone || 'Our Studio',
             };
             const waBody24 = formatWhatsAppMessage('CONSULTATION_REMINDER', waParams24);
 
@@ -968,6 +977,7 @@ export const consultationService = {
               consultation_date: dateStr,
               consultation_time: timeStr,
               studio_location: studioLocation,
+              phone_number: studioPhone || 'Our Studio',
             };
             const waBody2 = formatWhatsAppMessage('CONSULTATION_REMINDER', waParams2);
 

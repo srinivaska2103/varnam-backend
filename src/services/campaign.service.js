@@ -651,14 +651,16 @@ export const campaignService = {
   async previewWhatsAppCampaign(businessId, { package_name, offer_description, offer_end_date }) {
     const business = await prisma.businesses.findUnique({
       where: { id: businessId },
-      select: { name: true },
+      select: { name: true, business_phone: true, whatsapp_phone: true },
     });
 
+    const studioPhone = business?.whatsapp_phone || business?.business_phone || '';
     const params = {
       studio_name: business?.name || 'Bridal Studio',
       package_name: package_name || 'Exclusive Royal Bridal Package',
       offer_description: offer_description || '20% off bridal makeup + complimentary trial session',
       offer_end_date: offer_end_date || 'End of this month',
+      phone_number: studioPhone || 'Our Studio',
     };
 
     return {
@@ -676,7 +678,7 @@ export const campaignService = {
 
     const business = await prisma.businesses.findUnique({
       where: { id: businessId },
-      select: { name: true },
+      select: { name: true, business_phone: true, whatsapp_phone: true },
     });
     const studioName = business?.name || 'Bridal Studio';
 
@@ -738,11 +740,13 @@ export const campaignService = {
       );
     }
 
+    const studioPhone = business.whatsapp_phone || business.business_phone || '';
     const params = {
       studio_name: studioName,
       package_name,
       offer_description,
       offer_end_date,
+      phone_number: studioPhone || 'Our Studio',
     };
     const messageBody = formatWhatsAppMessage('SPECIAL_BRIDAL_PACKAGES', params);
 

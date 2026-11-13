@@ -11,15 +11,15 @@
 export const WHATSAPP_TEMPLATES = {
   // 1. Customer Enquiry Acknowledgement
   CUSTOMER_ENQUIRY_ACK: {
-    templateName: 'new_enquiry_notification',
+    templateName: 'new_enquirt_2',
     category: 'UTILITY',
     language: 'en',
     description: 'Sent to bride/customer upon successful enquiry submission',
-    headerParams: ['customer_name'],
-    requiredParams: ['studio_name', 'event_date', 'service_name', 'studio_location'],
-    format: ({ customer_name, studio_name, event_date, service_name, studio_location }) =>
-`Hi ${customer_name || 'there'}!
+    requiredParams: ['customer_name', 'studio_name', 'event_date', 'service_name', 'studio_location', 'phone_number'],
+    format: ({ customer_name, studio_name, event_date, service_name, studio_location, phone_number }) =>
+`New Enquiry !
 
+Hi ${customer_name || 'there'}!
 Thank you for contacting ${studio_name || 'our studio'} for your special day! 
 
 We've received your enquiry.
@@ -27,10 +27,11 @@ We've received your enquiry.
  Event Date: ${event_date || 'Date to be confirmed'}
  Service: ${service_name || 'Bridal Makeup'}
  Studio Location: ${studio_location || 'Studio'}
-
+ Contact Studio: ${phone_number || 'Our Team'}
+ 
 Our team will contact you soon to discuss your requirements.
 
-Varnam Management System`,
+Varnam Bridal Software`,
   },
 
   // 2. New Bridal Enquiry Notification to Studio Admin
@@ -61,8 +62,8 @@ Varnam Management System`,
     category: 'UTILITY',
     language: 'en',
     description: 'Sent to customer when booking is confirmed',
-    requiredParams: ['customer_name', 'studio_name', 'event_date', 'event_time', 'package_name', 'event_location', 'total_amount', 'amount_paid', 'balance_due'],
-    format: ({ customer_name, studio_name, event_date, event_time, package_name, event_location, total_amount, amount_paid, balance_due }) =>
+    requiredParams: ['customer_name', 'studio_name', 'event_date', 'event_time', 'package_name', 'event_location', 'total_amount', 'amount_paid', 'balance_due', 'phone_number'],
+    format: ({ customer_name, studio_name, event_date, event_time, package_name, event_location, total_amount, amount_paid, balance_due, phone_number }) =>
 `Booking confirmation
 
 Hi ${customer_name || 'valued client'},
@@ -80,6 +81,8 @@ Amount Paid: ₹${amount_paid ?? '0'}
 
 We're excited to be part of your special day!
 
+Contact Studio: ${phone_number || 'Our Team'}
+
 Please contact us if you need any changes.
 
 Varnam Management System`,
@@ -91,8 +94,8 @@ Varnam Management System`,
     category: 'UTILITY',
     language: 'en',
     description: 'Sent to customer prior to scheduled consultation',
-    requiredParams: ['customer_name', 'studio_name', 'consultation_date', 'consultation_time', 'studio_location'],
-    format: ({ customer_name, studio_name, consultation_date, consultation_time, studio_location }) =>
+    requiredParams: ['customer_name', 'studio_name', 'consultation_date', 'consultation_time', 'studio_location', 'phone_number'],
+    format: ({ customer_name, studio_name, consultation_date, consultation_time, studio_location, phone_number }) =>
 `Consultation reminder
 
 Hi ${customer_name || 'there'}!
@@ -102,6 +105,7 @@ This is a friendly reminder about your upcoming bridal consultation with ${studi
 Date: ${consultation_date || 'Scheduled Date'}
 Time: ${consultation_time || 'Scheduled Time'}
 Location: ${studio_location || 'Studio'}
+Contact Studio: ${phone_number || 'Our Team'}
 
 Please let us know if you need to reschedule.
 
@@ -116,8 +120,8 @@ Varnam Management System`,
     category: 'UTILITY',
     language: 'en',
     description: 'Sent to customer with positive outstanding balance',
-    requiredParams: ['studio_name', 'customer_name', 'package_name', 'event_date', 'total_amount', 'amount_paid', 'balance_due', 'due_date'],
-    format: ({ studio_name, customer_name, package_name, event_date, total_amount, amount_paid, balance_due, due_date }) =>
+    requiredParams: ['studio_name', 'customer_name', 'package_name', 'event_date', 'total_amount', 'amount_paid', 'balance_due', 'due_date', 'phone_number'],
+    format: ({ studio_name, customer_name, package_name, event_date, total_amount, amount_paid, balance_due, due_date, phone_number }) =>
 `Pending balance payment reminder
 
 Payment Reminder — ${studio_name || 'Bridal Studio'}
@@ -135,6 +139,8 @@ Payment Due Date: ${due_date || 'Before Event'}
 
 Please contact us if you have already completed the payment.
 
+Contact Studio: ${phone_number || 'Our Team'}
+
 Thank you! ❤️
 
 Varnam  Management System`,
@@ -146,8 +152,8 @@ Varnam  Management System`,
     category: 'UTILITY',
     language: 'en',
     description: 'Sent 2 days prior to confirmed wedding/event date to customer & admin',
-    requiredParams: ['customer_name', 'studio_name', 'event_date', 'package_name', 'event_location'],
-    format: ({ customer_name, studio_name, event_date, package_name, event_location }) =>
+    requiredParams: ['customer_name', 'studio_name', 'event_date', 'package_name', 'event_location', 'phone_number'],
+    format: ({ customer_name, studio_name, event_date, package_name, event_location, phone_number }) =>
 `Event preparation reminder
 
 ✨ Your Special Day Is Almost Here!
@@ -161,6 +167,8 @@ Package: ${package_name || 'Bridal Package'}
 Location: ${event_location || 'Event Location'}
 
 Please confirm any final requirements with our team.
+
+Contact Studio: ${phone_number || 'Our Team'}
 
 We look forward to making your special day beautiful! ✨
 
@@ -194,14 +202,15 @@ Varnam Management System`,
 
   // 8. Bridal Consultation Follow-up
   CONSULTATION_FOLLOW_UP: {
-    templateName: 'consulation_follow_template',
+    templateName: 'consulation_2',
     category: 'UTILITY',
     language: 'en',
     description: 'Sent ~24 hours after a completed bridal consultation',
-    requiredParams: ['customer_name', 'studio_name', 'consultation_date', 'interested_service'],
-    format: ({ customer_name, studio_name, consultation_date, interested_service }) =>
-`Bridal Consulation Follow UP
+    requiredParams: ['customer_name', 'studio_name', 'consultation_date', 'interested_service', 'phone_number'],
+    format: ({ customer_name, studio_name, consultation_date, interested_service, phone_number }) =>
+`Consulation Follow Up !
 
+Bridal Consulation Follow UP
 Hello ${customer_name || 'there'},
 
 Thank you for choosing ${studio_name || 'our studio'} for your bridal consultation. We appreciate the opportunity to discuss your bridal requirements and preferences.
@@ -211,9 +220,11 @@ Service Interested In: ${interested_service || 'Bridal Makeup & Styling'}
 
 We hope your consultation was helpful. If you have any questions or would like to proceed with your booking, please feel free to contact us. We would be delighted to assist you in planning your special day.
 
+Contact Studio: ${phone_number || 'Our Team'}
+
 We look forward to hearing from you.
 
-Varnam Management System`,
+Varnam Bridal Software`,
   },
 
   // 9. Special Bridal Packages Campaign (MANUAL, User-Triggered Only)
@@ -222,8 +233,8 @@ Varnam Management System`,
     category: 'MARKETING',
     language: 'en',
     description: 'Marketing campaign template triggered manually by studio user',
-    requiredParams: ['studio_name', 'package_name', 'offer_description', 'offer_end_date'],
-    format: ({ studio_name, package_name, offer_description, offer_end_date }) =>
+    requiredParams: ['studio_name', 'package_name', 'offer_description', 'offer_end_date', 'phone_number'],
+    format: ({ studio_name, package_name, offer_description, offer_end_date, phone_number }) =>
 `Special Bridal Packages
 
 ✨ Special Bridal Packages from ${studio_name || 'our studio'} ✨
@@ -237,6 +248,8 @@ Offer: ${offer_description || 'Special Bridal Discount'}
 Offer Valid Until: ${offer_end_date || 'Limited Time'}
 
 Interested? Reply to this message or contact us to learn more.
+
+Contact Studio: ${phone_number || 'Our Team'}
 
 We'd love to be part of your beautiful journey! ❤️
 
@@ -347,7 +360,9 @@ Varnam  Management System`,
  */
 const TEMPLATE_NAME_ALIASES = {
   // Original internal keys
-  customer_enquiry_ack: 'new_enquiry_notification',
+  customer_enquiry_ack: 'new_enquirt_2',
+  new_enquiry_notification: 'new_enquirt_2',
+  new_enquirt_2: 'new_enquirt_2',
   admin_enquiry_alert: 'new_enquiry_alert__admin',
   new_enquiry_alert: 'new_enquiry_alert__admin',
   booking_confirmation: 'booking_confirmation__customer',
@@ -355,7 +370,9 @@ const TEMPLATE_NAME_ALIASES = {
   pending_balance_reminder: 'pending_balance_payment_reminder',
   event_preparation_reminder: 'event_preparation_reminder__two_days_before',
   subscription_expiry_reminder: 'subscription_expiry_reminder__studio_admin',
-  consultation_follow_up: 'consulation_follow_template',
+  consultation_follow_up: 'consulation_2',
+  consulation_follow_template: 'consulation_2',
+  consulation_2: 'consulation_2',
   special_bridal_packages: 'marketing_campaign__special_bridal_package',
   booking_confirmation_payment_reminder: 'booking_confirmation_payment_reminder',
   post_event_balance_reminder: 'post_event_balance_reminder',

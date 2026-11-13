@@ -601,7 +601,7 @@ export const websiteService = {
         const eventDateFormatted = enquiry.event_date ? enquiry.event_date.toISOString().split('T')[0] : (data.event_date || 'Date TBD');
         const serviceName = data.service_interested || data.event_kind || 'Bridal Makeup';
 
-        // 1. WhatsApp Notification: Customer Acknowledgement (CUSTOMER_ENQUIRY_ACK / new_enquiry_notification)
+        // 1. WhatsApp Notification: Customer Acknowledgement (CUSTOMER_ENQUIRY_ACK / new_enquirt_2)
         if (customerPhone) {
           try {
             const waAckParams = {
@@ -610,6 +610,7 @@ export const websiteService = {
               event_date: eventDateFormatted,
               service_name: serviceName,
               studio_location: studioAddress,
+              phone_number: contactPhone || 'Our Studio',
             };
             const waAckBody = formatWhatsAppMessage('CUSTOMER_ENQUIRY_ACK', waAckParams);
 
@@ -619,7 +620,7 @@ export const websiteService = {
               channel: 'WHATSAPP',
               subject: 'Bridal Enquiry Acknowledgement',
               messageBody: waAckBody,
-              templateName: 'new_enquiry_notification',
+              templateName: 'new_enquirt_2',
               templateParams: waAckParams,
               idempotencyKey: `wa_web_enq_ack_${enquiry.id}_${customerPhone}`,
               customerId: customer.id,

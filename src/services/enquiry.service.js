@@ -242,12 +242,14 @@ export const enquiryService = {
         console.log('[EnquiryService] Checking customer phone for WhatsApp ack:', enquiry.customer_phone);
         if (enquiry.customer_phone) {
           try {
+            const studioPhone = biz?.whatsapp_phone || biz?.business_phone || '';
             const waAckParams = {
               customer_name: enquiry.customer_name,
               studio_name: bizName,
               event_date: eventDateFormatted || 'To be scheduled',
               service_name: enquiry.event_kind || 'Bridal Makeup',
               studio_location: studioAddress || 'Studio',
+              phone_number: studioPhone || 'Our Studio',
             };
             const waAckBody = formatWhatsAppMessage('CUSTOMER_ENQUIRY_ACK', waAckParams);
 
@@ -423,6 +425,7 @@ export const enquiryService = {
       );
       const customerWaJob = whatsappJobs.find(
         (j) =>
+          j.template_name === 'new_enquirt_2' ||
           j.template_name === 'new_enquiry_notification' ||
           j.template_name === 'customer_enquiry_ack'
       );
@@ -527,6 +530,7 @@ export const enquiryService = {
     );
     const customerWaJob = whatsappJobs.find(
       (j) =>
+        j.template_name === 'new_enquirt_2' ||
         j.template_name === 'new_enquiry_notification' ||
         j.template_name === 'customer_enquiry_ack'
     );
@@ -1749,12 +1753,14 @@ export const enquiryService = {
         // WhatsApp Template 1: Customer Enquiry Acknowledgement
         if (customerPhone) {
           try {
+            const studioPhone = business.whatsapp_phone || business.business_phone || '';
             const waAckParams = {
               customer_name: customerName,
               studio_name: business.name,
               event_date: eventDateFormatted || 'To be scheduled',
               service_name: enquiry.event_kind || 'Bridal Makeup',
               studio_location: studioAddress || 'Studio',
+              phone_number: studioPhone || 'Our Studio',
             };
             const waAckBody = formatWhatsAppMessage('CUSTOMER_ENQUIRY_ACK', waAckParams);
 

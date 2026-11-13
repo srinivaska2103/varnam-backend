@@ -653,6 +653,7 @@ export const notificationService = {
 
       // 3. WhatsApp Template 6: Event Preparation Reminder (Customer)
       const custPhone = b.customers.phone;
+      const studioPhone = b.businesses.whatsapp_phone || b.businesses.business_phone || '';
       if (custPhone) {
         const pkgName = b.package_name_snapshot || b.packages?.name || ev.title || 'Bridal Package';
         const venueStr = ev.venue || b.businesses.address_line1 || 'Studio';
@@ -662,6 +663,7 @@ export const notificationService = {
           event_date: eventDateStr,
           package_name: pkgName,
           event_location: venueStr,
+          phone_number: studioPhone || 'Our Studio',
         };
         const waCustBody = formatWhatsAppMessage('EVENT_PREPARATION_REMINDER', waCustParams);
 
@@ -690,6 +692,7 @@ export const notificationService = {
           event_date: eventDateStr,
           package_name: pkgName,
           event_location: venueStr,
+          phone_number: adminPhone || 'Our Studio',
         };
         const waAdminBody = formatWhatsAppMessage('EVENT_PREPARATION_REMINDER', waAdminParams);
 
@@ -806,6 +809,7 @@ export const notificationService = {
         if (!isOptedOut) {
           const pkgName = b.package_name_snapshot || b.packages?.name || lastEvent?.title || 'Bridal Package';
 
+          const studioPhone = b.businesses.whatsapp_phone || b.businesses.business_phone || '';
           const waParams = {
             studio_name: b.businesses.name,
             customer_name: b.customers.full_name,
@@ -815,6 +819,7 @@ export const notificationService = {
             amount_paid: totalPaidFormatted,
             balance_due: balanceFormatted,
             due_date: 'Immediate',
+            phone_number: studioPhone || 'Our Studio',
           };
           const waBody = formatWhatsAppMessage('POST_EVENT_BALANCE_REMINDER', waParams);
 
@@ -1040,12 +1045,14 @@ export const notificationService = {
       const timeStr = startDate ? startDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Coordinated Time';
       const studioLocation = c.location_address || c.location_name || c.businesses?.address_line1 || 'Studio';
 
+      const studioPhone = c.businesses?.whatsapp_phone || c.businesses?.business_phone || '';
       const waParams = {
         customer_name: c.requested_name || c.customers?.full_name || 'Valued Client',
         studio_name: c.businesses?.name || 'Bridal Studio',
         consultation_date: dateStr,
         consultation_time: timeStr,
         studio_location: studioLocation,
+        phone_number: studioPhone || 'Our Studio',
       };
 
       const waBody = formatWhatsAppMessage('CONSULTATION_REMINDER', waParams);
@@ -1096,11 +1103,13 @@ export const notificationService = {
       const dateStr = c.scheduled_start ? c.scheduled_start.toISOString().split('T')[0] : 'Recent Consultation';
       const interestedService = c.consultation_type || c.enquiries?.event_kind || 'Bridal Makeup & Styling';
 
+      const studioPhone = c.businesses?.whatsapp_phone || c.businesses?.business_phone || '';
       const waParams = {
         customer_name: c.requested_name || c.customers?.full_name || 'Valued Client',
         studio_name: c.businesses?.name || 'Bridal Studio',
         consultation_date: dateStr,
         interested_service: interestedService,
+        phone_number: studioPhone || 'Our Studio',
       };
 
       const waBody = formatWhatsAppMessage('CONSULTATION_FOLLOW_UP', waParams);
